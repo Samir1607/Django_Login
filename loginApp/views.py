@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -11,6 +13,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth import authenticate, login, logout
 from .tokens import generate_token
+from .models import MyModel
 
 
 # Create your views here.
@@ -116,7 +119,7 @@ def signin(request):
             login(request, user)
             fname = user.first_name
             # messages.success(request, "Logged In Sucessfully!!")
-            return render(request, "authentication/index.html", {"fname": fname})
+            return render(request, "loginApp/index.html", {"fname": fname})
         else:
             messages.error(request, "Bad Credentials!!")
             return redirect('home')
@@ -128,3 +131,8 @@ def signout(request):
     logout(request)
     messages.success(request, "Logged Out Successfully!!")
     return redirect('home')
+
+
+def model_list(request):
+    models = MyModel.objects.all()
+    return render(request, 'loginApp/model_list.html', {'models': models})

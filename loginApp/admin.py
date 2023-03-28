@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import MyModel
 
-# Register your models here.
+
+@admin.register(MyModel)
+class Xadmin(admin.ModelAdmin):
+    class Meta:
+        model = MyModel
+        fields = ["id", "name", "email", 'phone', "image"]
